@@ -1,0 +1,244 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+
+/* 🌿 Color palette */
+:root {
+  --earth-bg: #f7f3ef;
+  --card-bg: #ffffff;
+  --accent: #8b5e3c;
+  --accent-light: #c8a27a;
+  --text-main: #3e2f23;
+
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color-scheme: light dark;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+/* 🌿 Global body styling */
+body {
+  margin: 0;
+  padding-top: 70px;
+  background-color: var(--earth-bg);
+  color: var(--text-main);
+  font-family: "Cormorant Garamond", "Playfair Display", "Georgia", serif;
+  background-color: var(--earth-bg);
+  background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+}
+
+/* Custom Hamburger */
+/* Remove default border */
+.navbar-toggler {
+  border: none;
+  box-shadow: none;
+}
+
+/* Match your button color */
+.navbar-toggler {
+  background-color: var(--accent);
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+
+/* Make the lines white */
+.navbar-toggler-icon {
+  /* filter: invert(1); */
+  background-image: url("data:image/svg+xml;charset=utf8,\
+  %3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E\
+  %3Cpath stroke='white' stroke-width='2' stroke-linecap='round'\
+  d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Remove focus outline */
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+/* Override Bootstrap heading defaults */
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Playfair Display", Georgia, serif;
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+/* Optional: make them feel softer/handmade */
+h1 {
+  letter-spacing: 0.5px;
+}
+
+h2 {
+  font-size: 1.8rem;
+}
+
+.hero-container {
+  position: relative;
+  height: 60vh;
+  background: url("https://images.unsplash.com/photo-1519681393784-d120267933ba")
+    center/cover no-repeat;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* soft earthy overlay */
+.hero-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(62, 47, 35, 0.4);
+}
+
+.hero-overlay {
+  position: relative;
+  z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.hero-overlay h1,
+.hero-overlay p {
+  color: #ffffff;
+}
+
+.catalog-section {
+  margin-top: 3rem;
+}
+
+.catalog-subtitle {
+  color: #6f5b4a;
+}
+
+.category-select {
+  min-width: 240px;
+}
+
+/* 🌿 Cards feel softer + handmade */
+.card {
+  border: none;
+  border-radius: 16px;
+  background-color: var(--card-bg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.product-card {
+  text-align: left;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.product-card .card-title {
+  font-size: 1.1rem;
+}
+
+.product-category {
+  color: #6f5b4a;
+  font-style: italic;
+  margin-bottom: 0.5rem;
+  text-transform: capitalize;
+}
+
+.product-description {
+  display: -webkit-box;
+  min-height: 4.35rem;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.rating-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.75rem;
+  color: #7a5a2a;
+  font-size: 0.95rem;
+}
+
+.rating-stars__icons {
+  display: inline-flex;
+  gap: 0.12rem;
+}
+
+.rating-stars__star {
+  width: 1rem;
+  height: 1rem;
+}
+
+.rating-stars__star-empty {
+  fill: #efe3d2;
+  stroke: #b8892f;
+  stroke-width: 1.35;
+}
+
+.rating-stars__star-fill {
+  fill: #b8892f;
+  stroke: #8b5e3c;
+  stroke-width: 1.15;
+}
+
+.rating-stars__value {
+  color: #6f5b4a;
+  line-height: 1;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(139, 94, 60, 0.25); /* warm glow */
+}
+
+.cart-summary h4 {
+  margin-bottom: 0;
+}
+
+/* 🌿 Buttons */
+.btn-primary {
+  background-color: var(--accent);
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-light);
+}
+
+/* 🌿 Navbar tweak */
+.navbar {
+  background-color: #fff8f2 !important;
+  color: #3e2f23;
+}
+
+.navbar .nav-link {
+  padding-right: 0.5rem;
+}
+
+.navbar-toggler {
+  transform: scale(0.8);
+}
+
+/* Apply spacing to all form children */
+form > * {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 576px) {
+  .cart-controls {
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+}
