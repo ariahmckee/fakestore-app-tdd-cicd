@@ -161,7 +161,8 @@ export const getProducts = async () => {
 
   try {
     const snapshot = await getDocs(collection(db, "products"));
-    return { data: snapshot.docs.map(toProduct) };
+    const products = snapshot.docs.map(toProduct);
+    return { data: products.length > 0 ? products : readLocalProducts() };
   } catch (error) {
     if (isPermissionError(error)) {
       return { data: readLocalProducts() };
@@ -184,7 +185,12 @@ export const getProductsByCategory = async (category) => {
   try {
     const q = query(collection(db, "products"), where("category", "==", category));
     const snapshot = await getDocs(q);
-    return { data: snapshot.docs.map(toProduct) };
+    const products = snapshot.docs.map(toProduct);
+    return {
+      data: products.length > 0
+        ? products
+        : readLocalProducts().filter((product) => product.category === category),
+    };
   } catch (error) {
     if (isPermissionError(error)) {
       return { data: readLocalProducts().filter((product) => product.category === category) };
@@ -200,7 +206,11 @@ export const getProduct = async (id) => {
 
   try {
     const snapshot = await getDoc(doc(db, "products", id));
-    return { data: snapshot.exists() ? toProduct(snapshot) : null };
+    return {
+      data: snapshot.exists()
+        ? toProduct(snapshot)
+        : readLocalProducts().find((product) => product.id === id) || null,
+    };
   } catch (error) {
     if (isPermissionError(error)) {
       return { data: readLocalProducts().find((product) => product.id === id) || null };
