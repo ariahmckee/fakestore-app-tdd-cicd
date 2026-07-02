@@ -1,81 +1,96 @@
 # FakeStore E-Commerce App
 
-## Overview
+React e-commerce storefront with product browsing, Firebase-backed user features, cart state management, automated tests, and a GitHub Actions CI/CD pipeline that deploys to Vercel.
 
-This project is a responsive e-commerce app built with React, Vite, React Router, React Query, Redux Toolkit, React Bootstrap, and the FakeStore API.  
+## Live Application
 
-Users can browse FakeStore products, reveal the catalog from the Home page, filter products by category, view product details, add items to a cart, update quantities, remove items, and simulate checkout.
+[View the deployed app](https://fakestore-app-tdd-cicd.vercel.app)
 
 ## Features
 
-### Home
-
-* Hero section with handcrafted aesthetic
-* `Shop Now` button reveals the product catalog within the Home component
-* Product catalog can also be opened directly from the Products nav link
-
-### Product Catalog
-
-* Fetches product data from FakeStore API with React Query
-* Displays product cards in a responsive React Bootstrap grid
-* Shows product image, title, price, category, description, and rating
-* Includes an Add to Cart button for each product
-* Uses fallback image handling when an API image fails to load
-
-### Category Filtering
-
-* Fetches categories dynamically from `GET /products/categories`
-* Renders category options in a select dropdown
-* Fetches category-specific products from `GET /products/category/{category}`
-* Includes an All products option
-
-### Product Details
-
-* Displays individual product information
-* Allows users to add the product to the cart
-* Includes fallback image handling
-* Supports admin-only edit access
-
-### Shopping Cart
-
-* Uses Redux Toolkit for cart state management
-* Stores cart items in `sessionStorage`
-* Stores cart as an array of product objects with quantity values
-* Displays cart item title, image, quantity, and price
-* Supports increasing quantity, decreasing quantity, and removing items
-* Displays total product count and total cart price
-* Simulates checkout by clearing Redux state and `sessionStorage`
-* Shows success feedback after checkout
-
-### Mock Admin Tools
-
-* Admin login: username `admin`, password `password`
-* Admin users can add, edit, and delete products
-* FakeStore API returns mock success responses, but changes do not persist
+- Responsive storefront built with React, Vite, React Bootstrap, and custom CSS
+- Product catalog with category filtering and product detail pages
+- Seeded product fallback when the Firestore `products` collection is empty
+- Firebase authentication for user sign-up and login
+- Firestore-backed user profiles and order history
+- Redux Toolkit cart with add, remove, quantity update, and checkout flows
+- Cart persistence with `sessionStorage`
+- Admin-protected product create, edit, and delete tools
+- Unit and integration tests with Vitest and React Testing Library
+- GitHub Actions workflow for install, test, build, and Vercel deployment
 
 ## Tech Stack
 
-* React
-* Vite
-* React Router
-* React Query
-* Redux Toolkit
-* React Redux
-* Axios
-* React Bootstrap
-* Bootstrap
-* CSS
+- React 19
+- Vite
+- React Router
+- TanStack React Query
+- Redux Toolkit
+- React Redux
+- Firebase Authentication and Firestore
+- Axios
+- React Bootstrap and Bootstrap
+- Vitest
+- React Testing Library
+- GitHub Actions
+- Vercel
 
-## API Endpoints
+## Testing
 
-This app uses the FakeStore API:
+This project includes component unit tests and a cart integration test.
 
-* All products: `https://fakestoreapi.com/products`
-* Single product: `https://fakestoreapi.com/products/{id}`
-* Categories: `https://fakestoreapi.com/products/categories`
-* Products by category: `https://fakestoreapi.com/products/category/{category}`
+```bash
+npm test
+```
 
-FakeStore API is a mock API. POST, PUT, and DELETE requests return success responses, but the data is not permanently saved.
+Current test coverage includes:
+
+- `RatingStars` rendering and unavailable rating fallback
+- `ProductCard` rendering and add-to-cart Redux interaction
+- Cart integration flow confirming the cart UI updates after adding a product
+
+For local TDD/watch mode:
+
+```bash
+npm run test:watch
+```
+
+## CI/CD Pipeline
+
+The workflow file is located at `.github/workflows/main.yml`.
+
+On pushes and pull requests to `main`, GitHub Actions:
+
+1. Installs dependencies with `npm ci`
+2. Runs the test suite with `npm test`
+3. Builds the app with `npm run build`
+
+On successful pushes to `main`, the deployment job:
+
+1. Pulls the Vercel production environment
+2. Builds production artifacts with the Vercel CLI
+3. Deploys the prebuilt output to Vercel
+
+The deployment job requires these GitHub Actions repository secrets:
+
+- `VERCEL_TOKEN`
+- `VERCEL_ORG_ID`
+- `VERCEL_PROJECT_ID`
+
+## Environment Variables
+
+Create a local `.env` file for Firebase configuration:
+
+```bash
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+```
+
+Add the same `VITE_FIREBASE_*` values in the Vercel project environment variable settings for production.
 
 ## Getting Started
 
@@ -97,6 +112,12 @@ Build for production:
 npm run build
 ```
 
+Preview the production build locally:
+
+```bash
+npm run preview
+```
+
 Run lint checks:
 
 ```bash
@@ -107,16 +128,16 @@ npm run lint
 
 ```text
 src/
-  components/
-  context/
-  pages/
-  services/
-  store/
-  styles.css
+  components/    Reusable UI components
+  context/       Authentication context and hooks
+  pages/         Route-level page components
+  services/      Firebase/API data helpers
+  store/         Redux Toolkit store and cart slice
+  test/          Shared test setup, utilities, and integration tests
 ```
 
 ## Notes
 
-The cart uses `sessionStorage`, so cart data persists during the current browser session and clears when checkout is completed.
+Firestore is the primary product data source when Firebase is configured. If the Firestore `products` collection is empty, the app falls back to a seeded local product catalog so the deployed storefront remains usable.
 
-This app was built off of a more basic version, retaining the original's styling, navigation, and general UX approach while implementing functionality from React Query and Redux Toolkit.
+The cart uses `sessionStorage`, so cart contents persist during the current browser session and clear after checkout.
